@@ -1,11 +1,46 @@
 <html>
+  <script>
+    let globalId = 1;
+    function markAsDone(id) {
+      const selectedDiv = document.getElementById(id);
+      console.log(`id of the element ${id}`)
+      selectedDiv.children[2].innerHTML = 'Done!!';
+      selectedDiv.children[2].setAttribute('disabled', true);
+    }
+    function createChild(title, description, id) {
+      const child = document.createElement("div");
+
+      const titleDiv = document.createElement("div");
+      titleDiv.innerHTML = title;
+      const descDiv = document.createElement("div");
+      descDiv.innerHTML = description;
+      const doneButton = document.createElement("button");
+      doneButton.innerHTML = "Mark as Done";
+      doneButton.setAttribute("onClick", `markAsDone(${id})`)
+
+      child.setAttribute("id", id);
+      child.appendChild(titleDiv);
+      child.appendChild(descDiv);
+      child.appendChild(doneButton);
+      return child;
+    }
+    function addTodo() {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('desc').value;
+
+      document.getElementById('container').appendChild(createChild(title, description, globalId++));
+    }
+  </script>
   <section>
-    <input type="text" placeholder="Title" />
+    <input id="title" type="text" placeholder="Title" />
     <br />
     <br />
-    <input type="text" placeholder="Description" />
+    <input id="desc" type="text" placeholder="Description" />
     <br />
     <br />
-    <button>Add ToDo</button>
+    <button onClick="addTodo()">Add ToDo</button>
+  </section>
+  <section>
+    <div id="container"></div>
   </section>
 </html>
