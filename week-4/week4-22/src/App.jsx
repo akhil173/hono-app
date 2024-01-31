@@ -6,11 +6,18 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
+      <CustomCounter count={count} setCount={setCount} />
     </div>
   );
+}
+
+function CustomCounter(props) {
+  const onClickHandler = () => {
+    props.setCount(props.count + 1);
+  }
+  return (
+    <button onClick={onClickHandler}>Count is {props.count}</button>
+  )
 }
 
 export default App;
