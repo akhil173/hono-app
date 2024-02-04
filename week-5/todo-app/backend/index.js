@@ -23,9 +23,8 @@ app.post("/todos", async (req, res) => {
     });
   }
   await todo.create({
-    title: parsedCreatePayload.title,
-    description: parsedCreatePayload.description,
-    completed: false,
+    title: req.body.title,
+    description: req.body.description,
   });
 
   return res.json({
@@ -36,7 +35,14 @@ app.post("/todos", async (req, res) => {
 app.get("/todos", async (req, res) => {
   const todosArray = await todo.find({});
   return res.json({
-    todos: todosArray,
+    todos: todosArray.map((todo) => {
+      return {
+        id: todo._id,
+        title: todo.title,
+        description: todo.description,
+        completed: todo.completed,
+      };
+    }),
   });
 });
 
@@ -74,7 +80,7 @@ app.put("/completed", async (req, res) => {
     }
   );
 
-  return res.josn({
+  return res.json({
     msg: "Todo marked as completed",
   });
 });
