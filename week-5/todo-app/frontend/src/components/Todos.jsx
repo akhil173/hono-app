@@ -30,11 +30,11 @@ export function Todos({ todos, onUpdateTodo }) {
     <div>
       {todos.map((todo) => {
         return (
-          <div class="todo-item" key={todo.id}>
+          <div className="todo-item" key={todo.id}>
             <h2>{todo.title}</h2>
             <h3>{todo.description}</h3>
             <button
-              class={
+              className={
                 todo.completed ? "completed-button" : "mark-complete-button"
               }
               disabled={todo.completed}
@@ -46,7 +46,7 @@ export function Todos({ todos, onUpdateTodo }) {
               {todo.completed ? "Completed" : "Mark as Complete"}
             </button>
             <button
-              class="delete-button"
+              className="delete-button"
               onClick={(e) => {
                 e.preventDefault();
                 deleteTodo(todo.id);

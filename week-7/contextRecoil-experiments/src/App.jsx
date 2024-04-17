@@ -1,47 +1,56 @@
-import { useContext, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { CountContext } from './context'
+import "./App.css";
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import { countAtom, isCountEven } from "./store/atoms/count";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <CountContext.Provider value={{count, setCount}}>
-        <Count />
-      </CountContext.Provider>
-    </>
-  )
+    <RecoilRoot>
+      <Count />
+    </RecoilRoot>
+  );
 }
 
-function Count () {
-  return <div>
-    <CountRenderer />
-    <Buttons />
-  </div>
-}
-
-function CountRenderer () {
-  const {count} = useContext(CountContext);
-  return <div>
-    {count}
-  </div>
-}
-
-function Buttons () {
-  const {count, setCount} = useContext(CountContext);
+function Count() {
+  console.info("re rendered");
   return (
     <div>
-      <button onClick={() => {
-        setCount(count + 1);
-      }}>Increment</button>
-      <button onClick={() => {
-        setCount(count-1);
-      }}>Decrement</button>
+      <CountRenderer />
+      <Buttons />
+      <TextRenderer />
     </div>
-  )
+  );
 }
 
-export default App
+function CountRenderer() {
+  const count = useRecoilValue(countAtom);
+  return <div>{count}</div>;
+}
+
+function Buttons() {
+  const setCount = useSetRecoilState(countAtom);
+  console.log("count buttons rerendered");
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setCount((count) => count + 1);
+        }}>
+        Increment
+      </button>
+      <button
+        onClick={() => {
+          setCount((count) => count - 1);
+        }}>
+        Decrement
+      </button>
+    </div>
+  );
+}
+
+function TextRenderer() {
+  const countEven = useRecoilValue(isCountEven);
+  console.info("text rerendered");
+  return countEven && <div>It is even</div>;
+}
+
+export default App;
